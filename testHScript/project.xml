@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="TestHScript" package="com.example.testhscript" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="TestHScript" />
+	
+	<source path="Source" />
+	
+	<haxelib name="openfl" />
+	<haxelib name="hscript" />
+	
+	<assets path="Assets" rename="assets" exclude="openfl.svg" />
+	<assets path="Assets/scripts" rename="scripts" />
+	<icon path="Assets/openfl.svg" />
+	
+</project>
