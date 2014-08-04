@@ -4,6 +4,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.Lib;
 import openfl.events.IOErrorEvent;
+import openfl.events.ProgressEvent;
 import openfl.net.Socket;
 
 /**
@@ -13,15 +14,20 @@ import openfl.net.Socket;
 
 class Main extends Sprite 
 {
+	var mSocket:Socket;
 	public function new() {
 		super();
 		
-		var socket : Socket = new Socket();
-		socket.connect("localhost", 5000);
-		socket.addEventListener(Event.CONNECT, onConnect);
-		socket.addEventListener(IOErrorEvent.IO_ERROR, onError);
-		
-		
+		mSocket = new Socket();
+		mSocket.connect("localhost", 5000);
+		mSocket.addEventListener(Event.CONNECT, onConnect);
+		mSocket.addEventListener(IOErrorEvent.IO_ERROR, onError);
+		mSocket.addEventListener(ProgressEvent.SOCKET_DATA, onResponse);
+	}
+	
+	private function onResponse(e:Event):Void 
+	{
+		trace(mSocket.readUTFBytes(mSocket.bytesAvailable));
 	}
 	
 	private function onError(e:Event):Void 
@@ -31,6 +37,6 @@ class Main extends Sprite
 	
 	private function onConnect(e:Event):Void 
 	{
-		trace("connect");
+		trace("connected");
 	}
 }
