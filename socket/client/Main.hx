@@ -24,6 +24,8 @@ class Main extends Sprite
 		mSocket.addEventListener(Event.CONNECT, onConnect);
 		mSocket.addEventListener(IOErrorEvent.IO_ERROR, onError);
 		mSocket.addEventListener(ProgressEvent.SOCKET_DATA, onResponse);
+		
+		sendMessage(Protocol.ASK_SCRIPT);
 	}
 	
 	private function onResponse(e:Event):Void 
@@ -39,5 +41,11 @@ class Main extends Sprite
 	private function onConnect(e:Event):Void 
 	{
 		trace("connected");
+	}
+	
+	private function sendMessage(message : Dynamic) {
+		for (field in Reflect.fields(message)) {
+			trace(Reflect.field(message, field));
+		}
 	}
 }
