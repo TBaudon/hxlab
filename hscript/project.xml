@@ -9,8 +9,8 @@
 	<haxelib name="openfl" />
 	<haxelib name="hscript" />
 	
-	<assets path="Assets" rename="assets" exclude="openfl.svg" />
-	<assets path="Assets/scripts" rename="scripts" />
-	<icon path="Assets/openfl.svg" />
+	<assets path="../assets" rename="assets" exclude="openfl.svg" />
+	<assets path="../assets/scripts" rename="scripts" />
+	<icon path="../assets/openfl.svg" />
 	
 </project>
