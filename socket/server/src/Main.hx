@@ -24,8 +24,11 @@ class Main
 	
 	public function new() {
 		
+		var host = new Host(Host.localhost());
+		Lib.println("Server launched on : " + host);
+		
 		mSocket = new Socket();
-		mSocket.bind(new Host("localhost"), 5000);
+		mSocket.bind(host, 5000);
 		mSocket.listen(1);
 		
 		mPeers = new Array<Socket>();

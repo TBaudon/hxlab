@@ -3,7 +3,7 @@
 	<!-- NMML reference: https://gist.github.com/1763850 -->
 	
 	<!-- metadata, make sure 'package' is at least 3 segments (ie. com.mycompany.myproject) -->
-	<meta title="client" package="client" version="1.0.0" company="TBaudon" />
+	<meta title="client" package="test.client" version="1.0.0" company="TBaudon" />
 	
 	<!-- output -->
 	<app main="Main" file="client" path="bin" />
@@ -19,7 +19,6 @@
 	
 	<!-- assets -->
 	<icon path="assets/openfl.svg" />
-	<assets path="assets/img" rename="img" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->
