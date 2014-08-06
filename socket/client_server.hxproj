@@ -11,16 +11,16 @@
     <movie version="3" />
     <movie minorVersion="0" />
     <movie platform="NME" />
-    <movie background="#000000" />
+    <movie background="000000" />
     <movie preferredSDK=";3;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\2,0,1" />
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\actuate\1,7,5" />
+    <class path="C:\workspace\haxelib-dev\openfl" />
+    <class path="C:\outils\HaxeToolkit\haxe\lib\actuate\1,7,5" />
     <class path="client" />
     <class path="common" />
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\2,0,1\backends\native" />
+    <class path="C:\workspace\haxelib-dev\openfl\backends\native" />
     <class path="bin\windows\neko\haxe" />
   </classpaths>
   <!-- Build options -->

@@ -1,5 +1,8 @@
 package ;
 
+import haxe.io.Bytes;
+import haxe.io.BytesBuffer;
+import haxe.Timer;
 import neko.Lib;
 import neko.vm.Thread;
 import sys.net.Host;
@@ -45,7 +48,41 @@ class Main
 	
 	function handler() {
 		var client : Socket = Thread.readMessage(true);
-		client.write("You are connected.");
+		
+		var message = new Message();
+		message.writeString("a");
+		message.writeInt(52);
+		message.writeBool(false);
+		message.writeInt(213);
+		message.writeInt(21);
+		
+		sendMessage(client, message);
+	
+		var message2 = new Message();
+		message2.writeString("A");
+		message2.writeInt(21);
+		message2.writeBool(true);
+		message2.writeInt(1);
+		message2.writeInt(5);
+		
+		sendMessage(client, message2);
+	}
+	
+	function sendMessage(client : Socket, message : Message) {
+		var header = message.header.getBytes();
+		var content = message.content.getBytes();
+		
+		var messageBuffer = new BytesBuffer();
+		messageBuffer.addByte(header.length + content.length + 2);
+		messageBuffer.addByte(header.length);
+		messageBuffer.add(header);
+		messageBuffer.addByte(content.length);
+		messageBuffer.add(content);
+		
+		var message = messageBuffer.getBytes();
+		
+		client.output.writeBytes(message, 0, message.length);
+		client.output.flush();
 	}
 	
 }

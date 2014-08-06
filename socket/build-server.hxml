@@ -1,3 +1,4 @@
 -cp server
+-cp common
 -main Main
 -neko bin/server/server.n
