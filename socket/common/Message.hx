@@ -10,58 +10,48 @@ import haxe.io.BytesOutput;
  */
 class Message
 {
+	public var output : BytesOutput;
 	
-	/*
-	 * int = 0
-	 * bool = 1
-	 * string = 2 + size
-	 */
-
-	public var header : BytesBuffer;
-	public var content : BytesBuffer;
+	public inline static var INT = 0;
+	public inline static var BOOL = 1;
+	public inline static var STRING = 2;
 	
 	public function new() {
-		header = new BytesBuffer();
-		content = new BytesBuffer();
+		output = new BytesOutput();
 	}
 	
 	public function writeInt(x : Int) {
-		header.addByte(0);
-		content.addByte(x);
+		output.writeByte(INT);
+		output.writeInt32(x);
 	}
 	
 	public function writeBool(b : Bool) {
-		header.addByte(1);
-		if(b)
-			content.addByte(1);
-		else
-			content.addByte(0);
+		output.writeByte(BOOL);
+		if (b) output.writeByte(1);
+		else output.writeByte(0); 
 	}
 	
 	public function writeString(s : String) {
-		header.addByte(2);
-		header.addByte(s.length);
-		content.addString(s);
+		output.writeByte(STRING);
+		output.writeInt32(s.length);
+		output.writeString(s);
 	}
-	// why bother with a header ? just altern type declaration and value
+	
 	public static function read(bytes : Bytes) : Dynamic {
 		var input = new BytesInput(bytes);
-		var headerSize = input.readByte();
-		var headerByteRead : Int = 0;
-		while (headerByteRead < headerSize) {
+		var byteToRead = bytes.length;
+		while (input.position < byteToRead) {
 			var type = input.readByte();
-			switch (type) {
-				case 0 :
-					trace("int");
-				case 1 :
-					trace("bool");
-				case 2 :
-					var len = input.readByte();
-					trace("String : " + len);
+			switch(type) {
+				case INT :
+					trace("int : " + input.readInt32());
+				case STRING :
+					var len = input.readInt32();
+					trace("string : " + input.readString(len));
+				case BOOL : 
+					trace("bool : " + input.readByte());
 			}
-			headerByteRead++;
 		}
-		var contentSize = input.readByte();
 		
 		return null;
 	}

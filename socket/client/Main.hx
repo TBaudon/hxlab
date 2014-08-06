@@ -8,7 +8,7 @@ import openfl.events.IOErrorEvent;
 import openfl.events.ProgressEvent;
 import openfl.net.Socket;
 import openfl.utils.ByteArray;
-import sys.net.Host;
+import openfl.utils.Endian;
 
 /**
  * ...
@@ -19,7 +19,7 @@ class Main extends Sprite
 {
 	var mSocket:Socket;
 	
-	var mCurrentMessageLength : Int;
+	var mCurrentMessageLength : UInt;
 	var mInputBuffer : BytesBuffer;
 	
 	public function new() {
@@ -36,22 +36,25 @@ class Main extends Sprite
 	
 	private function onData(e:Event):Void 
 	{
+		trace("data");
 		var byteReceived = mSocket.bytesAvailable;
 		// while there are data on the socketInput
 		while (mSocket.bytesAvailable > 0) {
+			
 			// if we treated all messages, read a new message
 			if (mInputBuffer.length == 0) {
-				mCurrentMessageLength = mSocket.readByte();
+				mSocket.endian = Endian.LITTLE_ENDIAN;
+				mCurrentMessageLength = mSocket.readInt();
 				// if all the message's data are not available, bufferise the current message
 				if (mCurrentMessageLength > mSocket.bytesAvailable) {
 					var bytes : ByteArray = new ByteArray();
 					mSocket.readBytes(bytes, 0, mSocket.bytesAvailable);
-					mInputBuffer.add(bytes);
+					mInputBuffer.add(byteArrayToByte(bytes));
 				// else if all the data are available, read the message
 				}else {
 					var bytes : ByteArray = new ByteArray();
 					mSocket.readBytes(bytes, 0, mCurrentMessageLength);
-					Message.read(bytes);
+					Message.read(byteArrayToByte(bytes));
 					trace("Message received");
 				}
 			// we are currently buffering a message
@@ -60,17 +63,30 @@ class Main extends Sprite
 				if (byteToRead > mSocket.bytesAvailable) {
 					var bytes : ByteArray = new ByteArray();
 					mSocket.readBytes(bytes, 0, mSocket.bytesAvailable);
-					mInputBuffer.add(bytes);
+					mInputBuffer.add(byteArrayToByte(bytes));
 				}else {
 					var bytes : ByteArray = new ByteArray();
 					mSocket.readBytes(bytes, 0, byteToRead);
-					mInputBuffer.add(bytes);
+					mInputBuffer.add(byteArrayToByte(bytes));
 					Message.read(mInputBuffer.getBytes());
 					mInputBuffer = new BytesBuffer();
 					trace("Message received");
 				}
 			}
 		}
+	}
+	
+	// REALLLYYYY, no simpler way to pass from bytearray to bytes on non native target ?
+	function byteArrayToByte(byteArray : ByteArray) : Bytes {
+		#if native
+		return byteArray;
+		#end
+		var rep = new BytesBuffer();
+		
+		while (byteArray.position < byteArray.length) 
+			rep.addByte(byteArray.readByte());
+		
+		return rep.getBytes();
 	}
 	
 	private function onError(e:Event):Void 

@@ -1,7 +1,6 @@
 package ;
 import haxe.macro.Context;
 import sys.net.Host;
-
 /**
  * ...
  * @author Thomas B
