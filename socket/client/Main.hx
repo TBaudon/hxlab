@@ -3,9 +3,10 @@ package ;
 import hscript.Expr;
 import hscript.Interp;
 import hscript.Parser;
+import openfl.Lib;
+
 import openfl.display.Sprite;
 import openfl.events.Event;
-import sys.io.File;
 
 /**
  * ...
@@ -20,40 +21,46 @@ class Main extends Sprite
 	var mEntity : Sprite;
 	
 	var mParser : Parser;
-	var mInterp : Interp;
+	var mInterp : TestInterp;
 	var mAst : Expr;
+	
+	public var data : Dynamic;
+	var test : Sprite;
 	
 	public function new() {
 		super();
 		
 		initServer();
-		initBaseScript();
 		
 		mEntity = new Sprite();
 		mEntity.graphics.beginFill(0xff0000);
 		mEntity.graphics.drawCircle(0, 0, 25);
-		addChild(mEntity);
+		//addChild(mEntity);
 		
 		mParser = new Parser();
 		mParser.allowJSON = true;
 		mParser.allowTypes = true;
 		
-		var data = { };
+		test = new Sprite();
 		
-		mInterp = new Interp();
-		mInterp.variables.set("this", mEntity);
+		data = { };
+		
+		mInterp = new TestInterp();
+		mInterp.variables["this"] = this;
 		mInterp.variables.set("Math", Math);
-		mInterp.variables.set("data", data);
-		
-		interpScript();
 		
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
 	}
 	
 	function onEnterFrame(e:Event):Void 
 	{
-		if(mAst != null)
-			mInterp.variables.get('onUpdate')();
+		if (mAst != null) {
+			try {
+				mInterp.variables.get('update')(Lib.getTimer());
+			}catch (e : Dynamic) {
+				trace(e);
+			}
+		}
 	}
 	
 	function interpScript() 
@@ -65,19 +72,25 @@ class Main extends Sprite
 			trace(e.getName());
 		}
 		
-		if(mAst != null)
-			mInterp.variables.get('onInit')();
-	}
-	
-	function initBaseScript() 
-	{
-		mScript = File.getContent("../../../scripts/baseScript.hx");
+		if (mAst != null) {
+			try {
+				mInterp.variables.get('init')();
+			}catch (e : Dynamic) {
+				trace(e);
+			}
+		}
 	}
 	
 	function onMessage(e:ServerEvent):Void 
 	{
 		var message = e.data;
-		trace(message);
+		var messageCode : String = message.code;
+		switch(messageCode) {
+			case "scriptUpdate" : 
+				mScript = message.script;
+				interpScript();
+				trace("script updated");
+		}
 	}
 	
 	function onError(e:ServerEvent):Void 

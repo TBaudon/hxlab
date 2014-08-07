@@ -6,6 +6,7 @@ import haxe.io.BytesOutput;
 import haxe.Timer;
 import neko.Lib;
 import neko.vm.Thread;
+import sys.io.File;
 import sys.net.Host;
 import sys.net.Socket;
 
@@ -49,10 +50,19 @@ class Main
 	function handler() {
 		var client : Socket = Thread.readMessage(true);
 	
-		var message = new Message();
-		message.addString("messageType", "TEST MESSAGE");
-		message.addInt("color", 0xff00cc);
-		sendMessage(client, message);
+		while(true){
+			var message = new Message();
+			message.addString("code", "scriptUpdate");
+		
+			var script = File.getContent("../scripts/baseScript.hx");
+		
+			message.addString("script", script);
+		
+		
+			sendMessage(client, message);
+			
+			Sys.sleep(3);
+		}
 	}
 	
 	function sendMessage(client : Socket, message : Message) {
