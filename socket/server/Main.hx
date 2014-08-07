@@ -54,14 +54,14 @@ class Main
 			var message = new Message();
 			message.addString("code", "scriptUpdate");
 		
-			var script = File.getContent("../scripts/baseScript.hx");
+			var script = File.getContent("../../scripts/baseScript.hx");
 		
 			message.addString("script", script);
 		
 		
 			sendMessage(client, message);
 			
-			Sys.sleep(3);
+			Sys.sleep(0.3);
 		}
 	}
 	

@@ -12,6 +12,18 @@ function init() {
 		initBall();
 	}
 	
+	if (this.data.scoreLS == null) {
+		this.data.scoreLeft = 0;
+		this.data.scoreLS = new openfl.display.Sprite();
+		this.addChild(this.data.scoreLS);
+	}
+	
+	if (this.data.scoreLR == null) {
+		this.data.scoreRight = 0;
+		this.data.scoreLR = new openfl.display.Sprite();
+		this.addChild(this.data.scoreLR);
+	}
+	
 	var left = this.data.left;
 	var right = this.data.right;
 	
@@ -29,6 +41,9 @@ function init() {
 	this.data.onKeyDown = onKeyDown;
 	this.stage.addEventListener("keyDown", this.data.onKeyDown);
 	
+	this.stage.removeEventListener("touchMove", this.data.onClick);
+	this.data.onClick = onClick;
+	this.stage.addEventListener("touchMove", this.data.onClick);
 }
 
 function onKeyDown(e) 
@@ -56,11 +71,52 @@ function onKeyDown(e)
 	}
 }
 
+function addPoint(left) {
+	var score;
+	var sprite;
+	if (left) {
+		this.data.scoreLeft++;
+		score = this.data.scoreLeft;
+		sprite = this.data.scoreLS;
+	}else {
+		this.data.scoreRight++;
+		score = this.data.scoreRight;
+		sprite = this.data.scoreLR;
+	}
+	
+	sprite.graphics.clear();
+	sprite.graphics.beginFill(0xff0000);
+	var count = 0;
+	while (count < score) {
+		sprite.graphics.drawRect(count * 25, 0 , 20, 20);
+		count++;
+	}
+	
+	if (!left){
+		sprite.x = this.stage.stageWidth - sprite.width;
+		sprite.y = this.stage.stageHeight - sprite.height;
+	}
+}
+
+function onClick(e) {
+	var left = this.data.left;
+	var right = this.data.right;
+	if(e.stageX < this.stage.stageWidth / 2)
+		left.y = e.stageY - left.height;
+	else
+		right.y = e.stageY - right.height;
+}
+
 function initBall() {
 	this.data.ball.x = 400 - 15;
 	this.data.ball.y = 240 - 15; 
-	this.data.vitX = 10;
-	this.data.vitY = 10;
+	
+	var angle = Math.random() * 360 ;
+	while(angle > 50 && angle < 180 - 50 || angle > 180 + 50 && angle < 360 - 50)
+		angle = Math.random() * 360;
+		
+	this.data.vitX = Math.cos(angle / 180 * 3.14) * 10;
+	this.data.vitY = Math.sin(angle / 180 * 3.14) * 10;
 }
 
 function update(time : Int) {
@@ -69,36 +125,58 @@ function update(time : Int) {
 	ball.x += this.data.vitX;
 	ball.y += this.data.vitY;
 	
-	if (ball.y > 480 - 30){
+	var left = this.data.left;
+	var right = this.data.right;
+	
+	if (ball.y > 480 - 15){
 		this.data.vitY *= -1;
-		ball.y = 480 - 30;
-	}else if (ball.y < 0) {
+		ball.y = 480 - 15;
+	}else if (ball.y < 15) {
 		this.data.vitY *= -1;
-		ball.y = 0;
+		ball.y = 15;
 	}
 	
-	if (ball.x > 800 - 30){
-		this.data.vitX *= -1;
-		ball.x = 800 - 30;
-	}else if (ball.x < 0) {
-		this.data.vitX *= -1;
-		ball.x = 0;
+	if (ball.x > 830) {
+		initBall();
+		addPoint(true);
+	}else if (ball.x < -30) {
+		initBall();
+		addPoint(false);
 	}
 	
+	if (ball.x > 800 - 35) {
+		if (ball.y >= right.y && ball.y <= right.y + right.height){
+			this.data.vitX *= -1;
+			ball.x = 800 -35;
+			bounceVitY(right);
+		}
+	}else if (ball.x < 35) {
+		if (ball.y >= left.y && ball.y <= left.y + left.height){
+			this.data.vitX *= -1;
+			ball.x = 35;
+			bounceVitY(left);
+		}
+	}
+}
+
+function bounceVitY(raq) {
+	var ball = this.data.ball;
+	
+	this.data.vitY = (ball.y - (raq.y + raq.height/2)) / 10;
 }
 
 function drawRaquette(raquette : openfl.display.Sprite) {
 	raquette.graphics.clear();
-	raquette.graphics.beginFill(0xffffff);
-	raquette.graphics.drawRect(0, 0, 30, 200);
+	raquette.graphics.beginFill(0xFF6633);
+	raquette.graphics.drawRoundRect(0, 0, 20, 150,20);
 }
 
 function drawBall() {
 	var ball = this.data.ball;
 	
 	ball.graphics.clear();
-	ball.graphics.beginFill(0xffffff);
-	ball.graphics.drawRect(0, 0, 30, 30);
+	ball.graphics.beginFill(0xffff00);
+	ball.graphics.drawCircle(0, 0, 15);
 	
 	this.addChild(ball);
 	
