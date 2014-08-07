@@ -1,6 +1,7 @@
 package ;
 import haxe.io.Bytes;
 import haxe.io.BytesBuffer;
+import openfl.events.EventDispatcher;
 import openfl.net.Socket;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
@@ -12,7 +13,7 @@ import openfl.utils.Endian;
  * ...
  * @author Thomas B
  */
-class Server
+class Server extends EventDispatcher
 {
 	
 	var mSocket : Socket;
@@ -22,8 +23,10 @@ class Server
 
 	public function new(ip : String, port : Int) 
 	{
+		super();
 		mSocket = new Socket(ip, port);
 		mSocket.connect(ip, port);
+		
 		mSocket.addEventListener(Event.CONNECT, onConnect);
 		mSocket.addEventListener(IOErrorEvent.IO_ERROR, onError);
 		mSocket.addEventListener(ProgressEvent.SOCKET_DATA, onData);
@@ -55,7 +58,8 @@ class Server
 	function onMessageReceived() {
 		var bytes : ByteArray = new ByteArray();
 		mSocket.readBytes(bytes, 0, mCurrentMessageLength);
-		trace(Message.read(byteArrayToByte(bytes)));
+		var data = Message.read(byteArrayToByte(bytes));
+		dispatchEvent(new ServerEvent(ServerEvent.MESSAGE, data));
 	}
 	
 	// REALLLYYYY, no simpler way to pass from bytearray to bytes on non native target ?
@@ -73,12 +77,12 @@ class Server
 	
 	private function onError(e:Event):Void 
 	{
-		trace("error");
+		dispatchEvent(new ServerEvent(ServerEvent.ERROR));
 	}
 	
 	private function onConnect(e:Event):Void 
 	{
-		trace("connected");
+		dispatchEvent(new ServerEvent(ServerEvent.CONNECTED));
 	}
 	
 }

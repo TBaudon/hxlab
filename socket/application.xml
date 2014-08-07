@@ -17,6 +17,7 @@
 	<source path="common" />
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
+	<haxelib name="hscript" />
 	
 	<!-- assets -->
 	<icon path="../assets/openfl.svg" />
