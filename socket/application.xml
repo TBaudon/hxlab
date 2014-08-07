@@ -19,7 +19,7 @@
 	<haxelib name="actuate" />
 	
 	<!-- assets -->
-	<icon path="assets/openfl.svg" />
+	<icon path="../assets/openfl.svg" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->

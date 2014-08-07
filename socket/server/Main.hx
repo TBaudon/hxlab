@@ -27,7 +27,6 @@ class Main
 	}
 	
 	public function new() {
-		
 		var host = new Host(Host.localhost());
 		Lib.println("Server launched on : " + host);
 		
@@ -49,25 +48,11 @@ class Main
 	
 	function handler() {
 		var client : Socket = Thread.readMessage(true);
-		
-		var message = new Message();
-		message.writeString("I'm trying to code a haxe client/server application.");
-		message.writeInt(52);
-		message.writeBool(false);
-		message.writeInt(213);
-		message.writeString("Is it working?");
-		message.writeInt(21);
-		
-		sendMessage(client, message);
 	
-		/*var message2 = new Message();
-		message2.writeString("this message should come later");
-		message2.writeInt(21);
-		message2.writeBool(true);
-		message2.writeInt(1);
-		message2.writeInt(5);
-		
-		sendMessage2(client, message2);*/
+		var message = new Message();
+		message.addString("messageType", "TEST MESSAGE");
+		message.addInt("color", 0xff00cc);
+		sendMessage(client, message);
 	}
 	
 	function sendMessage(client : Socket, message : Message) {
@@ -79,40 +64,8 @@ class Main
 		
 		var message = messageBuffer.getBytes();
 		
-		for(i in 0 ... 10){
-			client.output.writeBytes(message, 0, message.length);
-			client.output.flush();
-			Sys.sleep(1);
-		}
-	}
-	
-	function sendMessage2(client : Socket, message : Message) {
-		var content = message.output.getBytes();
-		
-		var messageBuffer = new BytesOutput();
-		messageBuffer.writeInt32(content.length);
-		messageBuffer.write(content);
-		
-		var message = messageBuffer.getBytes();
-		
-		var lastPos = 0;
-		var byteToWrite = 8;
-		var loop = true;
-		while (loop) {
-			
-			if (message.length < (lastPos + byteToWrite)-1){
-				byteToWrite = message.length + lastPos;
-				loop = false;
-			}
-			
-			client.output.writeBytes(message, lastPos, byteToWrite);
-			client.output.flush();
-			
-			lastPos += byteToWrite;
-			
-			
-			Sys.sleep(1);
-		}
+		client.output.writeBytes(message, 0, message.length);
+		client.output.flush();
 	}
 	
 }

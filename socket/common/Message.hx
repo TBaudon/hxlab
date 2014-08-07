@@ -15,45 +15,71 @@ class Message
 	public inline static var INT = 0;
 	public inline static var BOOL = 1;
 	public inline static var STRING = 2;
+	public inline static var OBJECT = 3;
 	
 	public function new() {
 		output = new BytesOutput();
 	}
 	
-	public function writeInt(x : Int) {
-		output.writeByte(INT);
-		output.writeInt32(x);
+	public function addInt(name : String, x : Int) {
+		writeField(name);
+		writeInt(x);
 	}
 	
-	public function writeBool(b : Bool) {
-		output.writeByte(BOOL);
-		if (b) output.writeByte(1);
-		else output.writeByte(0); 
+	public function addBool(name : String, b : Bool) {
+		writeField(name);
+		writeBool(b);
 	}
 	
-	public function writeString(s : String) {
+	public function addString(name : String, s : String) {
+		writeField(name);
+		writeString(s);
+	}
+	
+	function writeField(s : String) {
+		output.writeByte(s.length);
+		output.writeString(s);
+	}
+	
+	function writeString(s : String) {
 		output.writeByte(STRING);
 		output.writeInt32(s.length);
 		output.writeString(s);
 	}
 	
+	function writeInt(x : Int) {
+		output.writeByte(INT);
+		output.writeInt32(x);
+	}
+	
+	function writeBool(b : Bool) {
+		output.writeByte(BOOL);
+		if (b) output.writeByte(1);
+		else output.writeByte(0); 
+	}
+	
 	public static function read(bytes : Bytes) : Dynamic {
+		
+		var rep = { };
+		
 		var input = new BytesInput(bytes);
 		var byteToRead = bytes.length;
 		while (input.position < byteToRead) {
+			var fieldLen = input.readByte();
+			var field = input.readString(fieldLen);
 			var type = input.readByte();
 			switch(type) {
 				case INT :
-					trace("int : " + input.readInt32());
+					Reflect.setProperty(rep, field, input.readInt32());
 				case STRING :
 					var len = input.readInt32();
-					trace("string : " + input.readString(len));
+					Reflect.setProperty(rep, field, input.readString(len));
 				case BOOL : 
-					trace("bool : " + input.readByte());
+					Reflect.setProperty(rep, field, input.readByte());
 			}
 		}
 		
-		return null;
+		return rep;
 	}
 	
 }
