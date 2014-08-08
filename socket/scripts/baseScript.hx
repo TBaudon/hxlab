@@ -167,7 +167,7 @@ function bounceVitY(raq) {
 
 function drawRaquette(raquette : openfl.display.Sprite) {
 	raquette.graphics.clear();
-	raquette.graphics.beginFill(0xFF6633);
+	raquette.graphics.beginFill(0xFF0000);
 	raquette.graphics.drawRoundRect(0, 0, 20, 150,20);
 }
 
@@ -175,8 +175,8 @@ function drawBall() {
 	var ball = this.data.ball;
 	
 	ball.graphics.clear();
-	ball.graphics.beginFill(0xffff00);
-	ball.graphics.drawCircle(0, 0, 15);
+	ball.graphics.beginFill(0xFFFFFF);
+	ball.graphics.drawRect(-15, -15, 30, 30);
 	
 	this.addChild(ball);
 	
