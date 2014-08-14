@@ -42,6 +42,8 @@ class Main
 		this.test = inter.variables.get('testScript');
 		this.test();
 		
+		// wooow, this is actually working! 
+		
 	}
 	
 }
