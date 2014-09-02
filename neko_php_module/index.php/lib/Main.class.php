@@ -23,8 +23,8 @@ class Main {
 		return null;
 	}
 	static function createInstance($module) {
-		Type::createInstance($module, (new _hx_array(array(10))));
-		return new Test("");
+		Type::createInstance($module, (new _hx_array(array())));
+		return new Test("51");
 	}
 	function __toString() { return 'Main'; }
 }
