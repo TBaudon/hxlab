@@ -75,8 +75,8 @@ class Main
 	}
 	
 	public static function createInstance(module : Class<Dynamic>) : Dynamic {
-		trace(module);
-		return untyped __call__('new Test', "");
+		Type.createInstance(module, [10]);
+		return untyped __call__('new Test', "51");
 	}
 	#end
 	
