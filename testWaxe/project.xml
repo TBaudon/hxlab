@@ -7,6 +7,9 @@
 	<source path="Source" />
 	
 	<haxelib name="openfl" />
+	<haxelib name="radengine" />
+	<haxelib name="simplebundle" />
 	<haxelib name="waxe" />
+	
 	
 </project>
