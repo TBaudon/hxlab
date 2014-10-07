@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="TestWaxe2" package="com.example.testwaxe2" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="TestWaxe2" />
+	
+	<source path="Source" />
+	
+	<haxelib name="openfl" />
+	<haxelib name="waxe" />
+	
+	<template path="templates" />
+	
+</project>

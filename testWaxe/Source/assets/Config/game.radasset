@@ -1,0 +1,18 @@
+{
+	"type" : "Config",
+    "systems": [
+        {
+            "params": {
+                "priority": 0
+            },
+            "name": "fr.radstar.radengine.systems.PhysicSys"
+        },
+        {
+            "params": {
+                "priority": 1
+            },
+            "name": "fr.radstar.radengine.systems.Render"
+        }
+    ],
+    "baseLevel": "assets/Level/defaultLevel.radasset"
+}
