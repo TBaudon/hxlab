@@ -7,11 +7,15 @@ import openfl.display.StageScaleMode;
 import openfl.Lib;
 import wx.App;
 import wx.Button;
+import wx.clay.Toolbox;
 import wx.Frame;
 import wx.Menu;
 import wx.MenuBar;
+import wx.Notebook;
 import wx.OpenFLStage;
 import wx.Panel;
+import wx.Scintilla;
+import wx.Window;
 
 
 class Main extends Sprite {
@@ -41,14 +45,24 @@ class Main extends Sprite {
 		mFrame.handle(OPEN, onMenuClicked);	
 		mFrame.handle(CLOSE, onMenuClicked);
 		
-		var panel = Panel.create(mFrame);
+		//var panel = Panel.create(mFrame);
 		
-		var littleRenderZone = OpenFLStage.create(panel);
+		var b : Notebook = Notebook.create(mFrame);
+		
+		var editorPage = Window.create(b);
+		var scintilla = Scintilla.create(editorPage);
+		
+		b.addPage(editorPage, "haha");
+		
+		var openflPage = Window.create(b);
+		var littleRenderZone = OpenFLStage.create(openflPage, 0, null, {width:300, height:300});
 		littleRenderZone.stage.align = StageAlign.TOP_LEFT;
         littleRenderZone.stage.scaleMode = StageScaleMode.NO_SCALE;
 		
 		littleRenderZone.stage.graphics.beginFill(0xff0000);
 		littleRenderZone.stage.graphics.drawCircle(0, 0, 20);
+		
+		b.addPage(openflPage, "openfl");
 		
 		mFrame.wxSetMenuBar(menu);
 	}
