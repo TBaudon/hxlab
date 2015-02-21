@@ -1,0 +1,28 @@
+{
+	"type" : "Prefab",
+    "components": [
+        {
+            "params": {
+                "pivotX": 50,
+                "view": "default",
+                "pivotY": 50
+            },
+            "name": "fr.radstar.radengine.components.View"
+        },
+        {
+            "params": {
+                "rotation": 0,
+                "scaleY": 1,
+                "scaleX": 1.3,
+                "y": 100,
+                "x": 100
+            },
+            "name": "fr.radstar.radengine.components.Transform"
+        },
+        {
+            "params": {
+            },
+            "name": "fr.radstar.radengine.components.Physic"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+	"type": "Level",
+	"entitys": [
+		{
+			"name": "a",
+			"params": [
+				{
+					"name": "fr.radstar.radengine.components.Transform",
+					"params": {
+						"scaleY": 0.5
+					}
+				}
+			],
+			"prefab": "assets/Prefab/FirstPrefab.radasset"
+		},
+		{
+			"name": "b",
+			"params": [
+				{
+					"name": "fr.radstar.radengine.components.Transform",
+					"params": {
+						"x": 200,
+						"y": 100
+					}
+				}
+			],
+			"prefab": "assets/Prefab/Test.radasset"
+		}
+	]
+}

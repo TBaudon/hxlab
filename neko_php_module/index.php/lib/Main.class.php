@@ -23,8 +23,8 @@ class Main {
 		return null;
 	}
 	static function createInstance($module) {
-		haxe_Log::trace($module, _hx_anonymous(array("fileName" => "Main.hx", "lineNumber" => 78, "className" => "Main", "methodName" => "createInstance")));
-		return new Test("");
+		Type::createInstance($module, (new _hx_array(array())));
+		return new Test("51");
 	}
 	function __toString() { return 'Main'; }
 }

@@ -6,14 +6,19 @@ package ;
  */
 class Test
 {
+	
+	var mRand : Int;
 
-	public function new() 
+	public function new(a : Int) 
 	{
-		trace("module working");
+		trace(" a : " + a);
+		mRand = a;
+		var p = 5;
+		trace("module working " + mRand + " " + p);
 	}
 	
 	public function run() {
-		trace("YEAH");
+		trace("YEAH " + mRand);
 	}
 	
 }

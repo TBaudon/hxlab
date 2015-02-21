@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project version="2">
+  <!-- Output SWF options -->
+  <output>
+    <movie outputType="Application" />
+    <movie input="" />
+    <movie path="project.xml" />
+    <movie fps="30" />
+    <movie width="800" />
+    <movie height="600" />
+    <movie version="3" />
+    <movie minorVersion="0" />
+    <movie platform="NME" />
+    <movie background="#FFFFFF" />
+    <movie preferredSDK=";3;" />
+  </output>
+  <!-- Other classes to be compiled into your SWF -->
+  <classpaths>
+    <class path="C:\Users\Thomas\workspace\haxelib-dev\RadEngine" />
+    <class path="C:\HaxeToolkit\haxe\lib\openfl\2,0,1" />
+    <class path="C:\HaxeToolkit\haxe\lib\ash\1,5,3" />
+    <class path="C:\HaxeToolkit\haxe\lib\hscript\2,0,3" />
+    <class path="C:\HaxeToolkit\haxe\lib\haxeui\1,4,14" />
+    <class path="C:\HaxeToolkit\haxe\lib\actuate\1,7,5" />
+    <class path="C:\HaxeToolkit\haxe\lib\svg\1,0,8" />
+    <class path="C:\Users\Thomas\workspace\haxelib-dev\waxe" />
+    <class path="Source" />
+    <class path="C:\HaxeToolkit\haxe\lib\openfl\2,0,1\backends\native" />
+    <class path="C:\HaxeToolkit\haxe\lib\haxeui\1,4,14\styles" />
+    <class path="C:\HaxeToolkit\haxe\lib\haxeui\1,4,14\fonts" />
+    <class path="Export\windows\cpp\haxe" />
+  </classpaths>
+  <!-- Build options -->
+  <build>
+    <option directives="radengine=&#xA;ash=1.5.3&#xA;haxeui=1.4.14&#xA;actuate=1.7.5&#xA;svg=1.0.8&#xA;openfl=2.0.1&#xA;hscript=2.0.3&#xA;waxe=3.0.0&#xA;noEditor&#xA;tools=1.5.7&#xA;lime_native&#xA;no-compilation&#xA;native&#xA;openfl-native&#xA;display&#xA;windows&#xA;desktop" />
+    <option flashStrict="False" />
+    <option noInlineOnDebug="False" />
+    <option mainClass="ApplicationMain" />
+    <option enabledebug="False" />
+    <option additional="--no-output&#xA;--remap flash:openfl&#xA;--macro include('fr.radstar.radengine.components', true)&#xA;--macro include('fr.radstar.radengine.systems', true)&#xA;--macro include('fr.radstar.radengine.editor', true)&#xA;#--macro keep(&quot;Main&quot;)" />
+  </build>
+  <!-- haxelib libraries -->
+  <haxelib>
+    <!-- example: <library name="..." /> -->
+  </haxelib>
+  <!-- Class files to compile (other referenced classes will automatically be included) -->
+  <compileTargets>
+    <!-- example: <compile path="..." /> -->
+  </compileTargets>
+  <!-- Assets to embed into the output SWF -->
+  <library>
+    <!-- example: <asset path="..." id="..." update="..." glyphs="..." mode="..." place="..." sharepoint="..." /> -->
+  </library>
+  <!-- Paths to exclude from the Project Explorer tree -->
+  <hiddenPaths>
+    <hidden path="obj" />
+  </hiddenPaths>
+  <!-- Executed before build -->
+  <preBuildCommand />
+  <!-- Executed after build -->
+  <postBuildCommand alwaysRun="False" />
+  <!-- Other project options -->
+  <options>
+    <option showHiddenPaths="False" />
+    <option testMovie="Custom" />
+    <option testMovieCommand="" />
+  </options>
+  <!-- Plugin storage -->
+  <storage />
+</project>
