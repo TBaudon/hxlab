@@ -122,8 +122,9 @@ function initBall() {
 function update(time : Int) {
 	
 	var ball = this.data.ball;
-	ball.x += this.data.vitX;
-	ball.y += this.data.vitY;
+	ball.x += this.data.vitX*1.5;
+	ball.y += this.data.vitY * 1.5
+	;
 	
 	var left = this.data.left;
 	var right = this.data.right;
@@ -167,16 +168,17 @@ function bounceVitY(raq) {
 
 function drawRaquette(raquette : openfl.display.Sprite) {
 	raquette.graphics.clear();
-	raquette.graphics.beginFill(0xFF0000);
-	raquette.graphics.drawRoundRect(0, 0, 20, 150,20);
+	raquette.graphics.beginFill(0x000000FF);
+	raquette.graphics.drawRoundRect(0, 0, 20, 150, 50);
 }
 
 function drawBall() {
 	var ball = this.data.ball;
 	
 	ball.graphics.clear();
-	ball.graphics.beginFill(0xFFFFFF);
-	ball.graphics.drawRect(-15, -15, 30, 30);
+	ball.graphics.beginFill(0x00FF00);
+	ball.graphics.drawCircle(0, 0, 50);
+	//ball.graphics.drawRect(-15, -15, 30, 30);
 	
 	this.addChild(ball);
 	
