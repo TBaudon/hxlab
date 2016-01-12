@@ -1,0 +1,8 @@
+-cp src
+-main Main
+-js bin/main.js
+
+--next
+-cp modules
+-js bin/module.js
+--macro include("mod",true)

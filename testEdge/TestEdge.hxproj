@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project version="2">
+  <!-- Output SWF options -->
+  <output>
+    <movie outputType="CustomBuild" />
+    <movie input="" />
+    <movie path="project.xml" />
+    <movie fps="30" />
+    <movie width="800" />
+    <movie height="600" />
+    <movie version="1" />
+    <movie minorVersion="0" />
+    <movie platform="Lime" />
+    <movie background="#FFFFFF" />
+    <movie preferredSDK=";3;" />
+  </output>
+  <!-- Other classes to be compiled into your SWF -->
+  <classpaths>
+    <class path="C:\outils\HaxeToolkit\haxelibs\openfl\3,5,3" />
+    <class path="C:\outils\HaxeToolkit\haxelibs\lime\2,8,3" />
+    <class path="C:\workspace\haxelib-dev\edge\src" />
+    <class path="C:\outils\HaxeToolkit\haxelibs\thx,core\0,39,0\src" />
+    <class path="Source" />
+    <class path="Export\windows\cpp\haxe" />
+  </classpaths>
+  <!-- Build options -->
+  <build>
+    <option directives="openfl=3.5.3&#xA;lime=2.8.3&#xA;edge=0.6.0&#xA;thx_core&#xA;thx.core=0.39.0&#xA;openfl-next&#xA;tools=2.8.3&#xA;no-compilation&#xA;native&#xA;lime-native&#xA;openfl-native&#xA;windows&#xA;desktop&#xA;display" />
+    <option flashStrict="False" />
+    <option noInlineOnDebug="False" />
+    <option mainClass="ApplicationMain" />
+    <option enabledebug="False" />
+    <option additional="--macro openfl.Lib.includeExterns()&#xA;--remap flash:openfl&#xA;#--macro keep(&quot;Main&quot;)" />
+  </build>
+  <!-- haxelib libraries -->
+  <haxelib>
+    <library name="thx.core" />
+  </haxelib>
+  <!-- Class files to compile (other referenced classes will automatically be included) -->
+  <compileTargets>
+    <!-- example: <compile path="..." /> -->
+  </compileTargets>
+  <!-- Paths to exclude from the Project Explorer tree -->
+  <hiddenPaths>
+    <hidden path="obj" />
+  </hiddenPaths>
+  <!-- Executed before build -->
+  <preBuildCommand>"$(CompilerPath)/haxelib" run lime build "$(OutputFile)" $(TargetBuild) -$(BuildConfig) -Dfdb</preBuildCommand>
+  <!-- Executed after build -->
+  <postBuildCommand alwaysRun="False" />
+  <!-- Other project options -->
+  <options>
+    <option showHiddenPaths="False" />
+    <option testMovie="Custom" />
+    <option testMovieCommand="" />
+  </options>
+  <!-- Plugin storage -->
+  <storage />
+</project>
