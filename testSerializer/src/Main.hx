@@ -21,14 +21,14 @@ class Main extends Sprite {
 		
 		var scene = new SceneTest();
 		
-		var serializer : Serializer = new Serializer();
+		/*var serializer : Serializer = new Serializer();
 		serializer.useCache = true;
 		serializer.serialize(scene);
 		
-		File.saveContent("test", serializer.toString());
+		File.saveContent("test", serializer.toString());*/
 		
-		/*var unserializer : Unserializer = new Unserializer(File.getContent("test"));
-		var scene : SceneTest = unserializer.unserialize();*/
+		var unserializer : Unserializer = new Unserializer(File.getContent("test"));
+		var scene : SceneTest = unserializer.unserialize();
 		
 		scene.draw(this);
 	}

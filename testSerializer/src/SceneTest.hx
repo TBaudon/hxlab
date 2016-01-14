@@ -19,6 +19,7 @@ class SceneTest {
 			var comp = new CompTest();
 			comp.x = Std.random(400);
 			comp.y = Std.random(400);
+			comp.scene = this;
 			comp.sprite = sprites[Std.random(sprites.length)];
 			comps.push(comp);
 		}

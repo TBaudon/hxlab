@@ -16,6 +16,8 @@ class CompTest {
 	
 	public var x : Float;
 	public var y : Float;
+	
+	public var scene : SceneTest;
 
 	var bitmapInstance : Bitmap;
 	
@@ -40,6 +42,7 @@ class CompTest {
 	function hxSerialize(s:Serializer) {
 		s.serialize(x);
 		s.serialize(y);
+		s.serialize(scene);
 		s.serialize(sprite);
 	}
 	
@@ -47,6 +50,7 @@ class CompTest {
 	function hxUnserialize(u:Unserializer) {
 		x = u.unserialize();
 		y = u.unserialize();
+		scene = u.unserialize();
 		sprite = u.unserialize();
 	}
 	
