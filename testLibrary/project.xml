@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="TestLibrary" package="com.sample.testlibrary" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="TestLibrary" />
+	
+	<source path="Source" />
+	
+	<haxelib name="openfl" />
+	
+	<template path="templates" />
+	
+	<assets path="lib" />
+	
+</project>

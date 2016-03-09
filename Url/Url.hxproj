@@ -16,20 +16,19 @@
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\3,6,0" />
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\lime\2,9,0" />
+    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\2,0,1" />
     <class path="Source" />
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\3,6,0\extern" />
-    <class path="Export\windows\neko\haxe" />
+    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\2,0,1\backends\html5" />
+    <class path="Export\html5\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=3.6.0&#xA;lime=2.9.0&#xA;openfl-next&#xA;tools=2.9.0&#xA;no-compilation&#xA;native&#xA;lime-native&#xA;openfl-native&#xA;windows&#xA;desktop&#xA;display" />
+    <option directives="openfl=2.0.1&#xA;tools=1.5.7&#xA;openfl-html5&#xA;display&#xA;html5&#xA;web&#xA;html5" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="--remap flash:openfl&#xA;#--macro keep(&quot;Main&quot;)" />
+    <option additional="--no-output &#xA;--remap flash:openfl&#xA;--macro allowPackage(&quot;flash&quot;)&#xA;-debug " />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

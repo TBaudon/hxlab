@@ -5,31 +5,31 @@
     <movie outputType="CustomBuild" />
     <movie input="" />
     <movie path="project.xml" />
-    <movie fps="30" />
-    <movie width="800" />
-    <movie height="600" />
+    <movie fps="0" />
+    <movie width="0" />
+    <movie height="0" />
     <movie version="1" />
     <movie minorVersion="0" />
     <movie platform="Lime" />
-    <movie background="FFFFFF" />
-    <movie preferredSDK=";3;" />
+    <movie background="#FFFFFF" />
+    <movie preferredSDK=";3.1.3;" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
   <classpaths>
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\3,6,0" />
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\lime\2,9,0" />
-    <class path="Source" />
-    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\3,6,0\extern" />
-    <class path="Export\windows\neko\haxe" />
+    <class path="E:\Outils\Dev\Haxe\haxe\lib\openfl\3,3,2" />
+    <class path="E:\Outils\Dev\Haxe\haxe\lib\lime\2,6,1" />
+    <class path="E:\Outils\Dev\Haxe\haxe\lib\actuate\1,8,6" />
+    <class path="src" />
+    <class path="bin\html5\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=3.6.0&#xA;lime=2.9.0&#xA;openfl-next&#xA;tools=2.9.0&#xA;no-compilation&#xA;native&#xA;lime-native&#xA;openfl-native&#xA;windows&#xA;desktop&#xA;display" />
+    <option directives="openfl=3.3.2&#xA;lime=2.6.1&#xA;actuate=1.8.6&#xA;openfl-next&#xA;tools=2.6.1&#xA;no-compilation&#xA;openfl-html5&#xA;canvas&#xA;lime-html5&#xA;html5&#xA;web&#xA;html5" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
-    <option enabledebug="False" />
-    <option additional="--remap flash:openfl&#xA;#--macro keep(&quot;Main&quot;)" />
+    <option enabledebug="True" />
+    <option additional="--remap flash:openfl&#xA;--macro allowPackage(&quot;flash&quot;)" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
@@ -37,7 +37,7 @@
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
   <compileTargets>
-    <!-- example: <compile path="..." /> -->
+    <compile path="src\Main.hx" />
   </compileTargets>
   <!-- Paths to exclude from the Project Explorer tree -->
   <hiddenPaths>

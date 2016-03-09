@@ -1,0 +1,62 @@
+<xml>
+<set name="HXCPP_API_LEVEL" value="321" />
+<files id="haxe">
+<compilerflag value="-Iinclude"/>
+  <file name="src/haxe/Log.cpp">
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/Std.cpp">
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/App.cpp">
+   <depend name="include/App.h"/>
+   <depend name="include/Extension.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/Extension.cpp">
+   <depend name="include/Extension.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/__boot__.cpp">
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/__files__.cpp">
+  </file>
+  <file name="src/__resources__.cpp">
+  </file>
+</files>
+<files id="__lib__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__lib__.cpp">
+  </file>
+</files>
+<files id="__main__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__main__.cpp">
+  </file>
+</files>
+<files id="__resources__">
+</files>
+<files id="__externs__">
+</files>
+<set name="HAXE_OUTPUT" value="output" />
+<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+	
+	<target id="ndll" output="extension" tool="linker" toolid="${STD_MODULE_LINK}" >
+		
+		<outdir name="ndll/" />
+		<ext value=".ndll" />
+		
+		<files id="haxe"/>
+		<options name="Options.txt"/>
+		
+		<files id="__main__" unless="static_link" />
+		<files id="__lib__" if="static_link"/>
+		<files id="__resources__" />
+		<files id="__externs__" />
+		<files id="cppia" if="scriptable" />
+		<files id="runtime" unless="dll_import" />
+		
+	</target>
+</xml>
