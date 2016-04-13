@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="TestOpenGL" package="com.sample.testopengl" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="TestOpenGL" />
+	
+	<window background="#990000" />
+	
+	<source path="Source" />
+	
+	<haxelib name="lime" />
+	
+	<assets path="Assets" rename="assets" />
+	
+</project>

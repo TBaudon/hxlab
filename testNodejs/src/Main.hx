@@ -30,7 +30,6 @@ class Main {
 			try {
 				Dispatch.run(req.url, null, new Main(req, res));
 			}catch (e : Dynamic) {
-				res.setHeader("connard", "oui");
 				req.addListener('end', function() {
 					file.serve(req, res, function(err, result) {
 						if (err != null)

@@ -1,0 +1,12 @@
+-cp src
+-main Launch
+-lib hxnodejs
+-lib hxelectron
+-js bin/main.js
+
+--next
+-cp src
+-main App
+-lib hxnodejs
+-lib hxelectron
+-js bin/app.js

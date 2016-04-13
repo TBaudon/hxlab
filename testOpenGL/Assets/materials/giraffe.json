@@ -1,0 +1,16 @@
+{
+	
+	"shader" : "assets/shaders/BasicTexture.shd",
+	
+	"params" : [
+	
+		{ 
+			"type" : "texture",
+			"name" : "uImage0",
+			"value" : "assets/textures/giraffe.png"
+		}
+	
+	]
+	
+	
+}
