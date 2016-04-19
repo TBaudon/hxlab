@@ -1,4 +1,5 @@
 package;
+import lime.math.Matrix4;
 
 /**
  * ...
@@ -18,6 +19,19 @@ class Batch extends Drawable {
 		if (mChildren.indexOf(d) == -1){
 			mChildren.push(d);
 		}
+	}
+	
+	public function remove(d : Drawable) {
+		mChildren.remove(d);
+	}
+	
+	override public function draw(projection:Matrix4, camera:Matrix4) {
+		prepare();
+		super.draw(projection, camera);
+	}
+	
+	function prepare() {
+		
 	}
 	
 }

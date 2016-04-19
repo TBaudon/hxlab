@@ -24,6 +24,13 @@ class BatchRenderer {
 	}
 	
 	public function remove(d : Drawable) {
+		var batch = mBatches[d.material];
+		if (batch != null)
+			batch.remove(d);
+	}
+	
+	public function render() {
+		
 	}
 	
 }

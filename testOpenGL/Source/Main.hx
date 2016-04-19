@@ -2,6 +2,7 @@ package;
 
 import lime.app.Application;
 import lime.graphics.Renderer;
+import lime.math.Matrix3;
 import lime.ui.Window;
 
 import lime.graphics.opengl.GL;
@@ -12,14 +13,16 @@ class Main extends Application {
 	
 
 	var mInited : Bool = false;
-	
-	var mGiraffe : Drawable;
-	var mHippo : Drawable;
 
 	var mLastTime : UInt;
 	
-	var mProjectionMatrix : Matrix4;
-	var mCameraMatrix : Matrix4;
+	var mProjectionMatrix : Matrix3;
+	var mCameraMatrix : Matrix3;
+	
+	var mGiraffes : Array<Giraffe>;
+	
+	var mMoy : Float = 0;
+	var mCount : UInt = 0;
 	
 	public function new () {
 		super ();
@@ -29,9 +32,13 @@ class Main extends Application {
 	
 	override public function onWindowCreate(window:Window):Void {
 		super.onWindowCreate(window);
-		mProjectionMatrix = Matrix4.createOrtho(0, window.width, window.height, 0, -1000, 1000);
-		mCameraMatrix = new Matrix4();
-		mCameraMatrix.appendTranslation( 100, 100, 0);
+		
+		mProjectionMatrix = new Matrix3();
+		mProjectionMatrix.scale(1 / (window.width*0.5), -1 /( window.height*0.5));
+		mProjectionMatrix.translate(-1, 1);
+		
+		mCameraMatrix = new Matrix3();
+		//mCameraMatrix.rotate(100);
 	}
 	
 	override public function onPreloadComplete():Void {
@@ -40,15 +47,12 @@ class Main extends Application {
 	}
 	
 	function init() {
-		
-		mGiraffe = new Drawable(Material.get("assets/materials/wavyGiraffe.json"));
-		mGiraffe.mesh = Mesh.Plane(128, 128);
-		
-		mHippo = new Drawable(Material.get("assets/materials/hippo.json"));
-		mHippo.mesh = Mesh.Plane(64, 64);
-		
-		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
+		mGiraffes = new Array<Giraffe>();
+		for (i in 0 ... 1000)
+			mGiraffes.push(new Giraffe(window.width, window.height));
+			
 		GL.enable(GL.BLEND);
+		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 		
 		mInited = true;
 		
@@ -68,16 +72,24 @@ class Main extends Application {
 			GL.clearColor(r, g, b, a);
 			GL.clear(GL.COLOR_BUFFER_BIT);
 			
-			mHippo.rotation += 1;
-			
-			mGiraffe.draw(mProjectionMatrix, mCameraMatrix);
-			mHippo.draw(mProjectionMatrix, mCameraMatrix);
+			for (giraffe in mGiraffes)
+				giraffe.draw(mProjectionMatrix, mCameraMatrix);
 			
 		}
 		
 		var time = System.getTimer();
 		Time.deltaTime = (time - mLastTime) / 1000;
 		Time.globalTime += Time.deltaTime;
+		Time.framerate = 1 / Time.deltaTime;
+		
+		mMoy += Time.framerate;
+		mCount++;
+		
+		if (mCount == 60) {
+			mMoy = Time.framerate;
+			mCount = 1;
+			trace(mMoy);
+		}
 		
 		mLastTime = time;
 	}

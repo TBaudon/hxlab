@@ -19,15 +19,16 @@ class Mesh {
 	var mVertexData : Array<Float>;
 	
 	var mNbVertices : UInt;
+	var mCoordPerVert : UInt;
 	
 	public static function Plane(width : Float, height : Float) : Mesh {
 		
 		var vertices = [
 		
-			0.0, 0.0, 0.0,
-			width, 0.0, 0.0,
-			width, height, 0.0,
-			0.0, height, 0.0
+			-width/2, -height/2, 0.0,
+			width/2, -height/2, 0.0,
+			width/2, height/2, 0.0,
+			-width/2, height/2, 0.0
 			
 		];
 		
@@ -50,14 +51,86 @@ class Mesh {
 		return new Mesh(vertices, textureCoords, indexes);
 	}
 	
+	public static function Cube(size : Float) : Mesh {
+		
+		var vertices = [
+		
+			-size/2, -size/2, -size/2,
+			size/2, -size/2, -size/2,
+			size/2, size/2, -size/2,
+			-size/2, size/2, -size/2,
+			
+			-size/2, -size/2, size/2,
+			size/2, -size/2, size/2,
+			size/2, size/2, size/2,
+			-size/2, size/2, size/2
+		];
+		
+		var textureCoords = [
+		
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+			
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0
+		];
+		
+		var indexes = [
+		
+			0, 1, 2,
+			2, 3, 0,
+			
+			4, 5, 6,
+			6, 7, 4
+			
+		];
+		
+		return new Mesh(vertices, textureCoords, indexes);
+	}
+	
+	public static function Plane2D(width : Float, height : Float) : Mesh {
+		var vertices = [
+		
+			-width / 2, -height / 2,
+			width / 2, -height / 2,
+			width / 2, height / 2, 
+			-width / 2, height / 2
+			
+		];
+		
+		var textureCoords = [
+		
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+
+		];
+		
+		var indexes = [
+		
+			0, 1, 2,
+			2, 3, 0,
+
+		];
+		
+		return new Mesh(vertices, textureCoords, indexes, true);
+	}
+	
 
 	public function new(_vertices : Array<Float> = null, 
 						_textureCoords : Array<Float> = null,
-						_indexes : Array<UInt> = null) {
+						_indexes : Array<UInt> = null,
+						_is2d : Bool = false) {
 		
 		mVertices = new Array<Float>();
 		mTextureCoords = new Array<Float>();
 		mVertexData = new Array<Float>();
+		mCoordPerVert = _is2d ? 2 : 3;
 							
 		if (_vertices == null)
 			_vertices = new Array<Float>();
@@ -70,7 +143,6 @@ class Mesh {
 		if (_indexes == null)
 			_indexes = new Array<UInt>();
 		indexes = _indexes;
-		
 	}
 	
 	function makeVertexData() {
@@ -79,8 +151,8 @@ class Mesh {
 		var dataPerVertices = 0;
 		
 		if (mVertices.length > 0) {
-			dataPerVertices += 3;
-			mNbVertices = cast mVertices.length / 3;
+			dataPerVertices += mCoordPerVert;
+			mNbVertices = cast mVertices.length / mCoordPerVert;
 		}
 		
 		if (mTextureCoords.length > 0)
@@ -94,10 +166,10 @@ class Mesh {
 			var index = i % dataPerVertices;
 			var data : Float = 0;
 			
-			if (index >= 0 && index <= 2)
-				data = mVertices[j * 3 + index];
-			else if (index >= 3 && index <= 4)
-				data = mTextureCoords[j * 2 + index - 3]; 
+			if (index >= 0 && index <= mCoordPerVert - 1)
+				data = mVertices[j * mCoordPerVert + index];
+			else if (index >= mCoordPerVert && index <= mCoordPerVert + 1)
+				data = mTextureCoords[j * 2 + index - mCoordPerVert]; 
 				
 			if (i < mVertexData.length)
 				mVertexData[i] = data;

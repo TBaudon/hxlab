@@ -1,0 +1,24 @@
+attributes
+	vec2 aPosition
+	vec2 aTexCoord
+
+uniforms
+	vertex mat3 projection
+	vertex mat3 camera
+	vertex mat3 transform
+	fragment sampler2D uImage0
+	fragment float uTime
+
+varyings
+	vec2 vTexCoord
+
+vertex
+	void main(void)
+		vTexCoord = aTexCoord
+		vec3 pos = vec3(aPosition.x, aPosition.y, 1)
+		vec3 result = projection * camera * transform * pos
+		gl_Position = vec4(result, 1)
+
+fragment
+	void main(void)
+		gl_FragColor = texture2D (uImage0, vec2(vTexCoord.x + sin(vTexCoord.y * 30.0 + uTime * 10.0) * 0.03, vTexCoord.y))

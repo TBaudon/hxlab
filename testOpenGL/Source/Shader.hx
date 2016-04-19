@@ -125,7 +125,7 @@ class Shader {
 		}
 		
 		#if !desktop
-		fragmentSrc = "precision highp float;\n" + fragmentSrc; 
+		fragmentSrc = "precision mediump float;\n" + fragmentSrc; 
 		#end
 
 		for (attribute in attributes)
@@ -192,6 +192,8 @@ class Shader {
 					GL.uniform1i(uniform.location, value);
 				case "mat4" :
 					GL.uniformMatrix4fv(uniform.location, false, value);
+				case "mat3" :
+					GL.uniformMatrix3fv(uniform.location, false, value);
 				case "float" :
 					GL.uniform1f(uniform.location, value);
 			}
