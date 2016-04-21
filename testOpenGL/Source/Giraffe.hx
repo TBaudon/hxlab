@@ -11,7 +11,7 @@ class Giraffe extends Drawable {
 	var mRotatinSpeed : Float;
 	
 	public function new(w : Int, h : Int) {
-		super(Material.get("assets/materials/wavyGiraffe.json"));
+		super(Material.get("assets/materials/giraffe.json"));
 		
 		var size = Std.random(256 - 32) + 32;
 		
@@ -20,7 +20,7 @@ class Giraffe extends Drawable {
 		
 		mRotatinSpeed = Math.random() * 30 - 15;
 		
-		mesh = Mesh.Plane2D(100, 100);
+		mesh = Mesh.Plane2D(250, 250);
 	}
 	
 	override public function draw(projection:Matrix3, camera:Matrix3) {

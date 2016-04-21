@@ -118,10 +118,10 @@ class Drawable {
 	
 	function convertMatrix3ToArray32(matrix : Matrix3) : Float32Array {
 		mMatrix3ConvertionArray[0] = matrix.a;
-		mMatrix3ConvertionArray[1] = matrix.c;
+		mMatrix3ConvertionArray[1] = matrix.b;
 		mMatrix3ConvertionArray[2] = 0;
 		
-		mMatrix3ConvertionArray[3] = matrix.b;
+		mMatrix3ConvertionArray[3] = matrix.c;
 		mMatrix3ConvertionArray[4] = matrix.d;
 		mMatrix3ConvertionArray[5] = 0;
 		

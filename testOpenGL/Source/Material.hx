@@ -1,9 +1,11 @@
 package;
 
 import haxe.Json;
+import js.html.Text;
 import lime.Assets;
 import lime.graphics.Image;
 import lime.graphics.opengl.GL;
+import lime.graphics.opengl.GLTexture;
 import lime.system.System;
 
 /**
@@ -47,12 +49,22 @@ class Material {
 		
 		for (param in mParams) {
 			if (param.type == "texture") {
-				var texture = Texture.get(param.value);
+				var texture : Texture;
+				
+				if(param.value != null && param.value != "")
+					texture = Texture.get(param.value);
+				else
+					texture = new Texture();
+				
 				mTextures[param.name] = { texture : texture, unit : mNbTextures };
 				mNbTextures++;
-				texture.load();
 			}
 		}
+	}
+	
+	public function setTexture(name : String, value : Texture) {
+		var texture = mTextures[name];
+		texture.texture = value;
 	}
 	
 	public function update() {

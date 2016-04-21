@@ -13,6 +13,8 @@ class Batch extends Drawable {
 		super(mat);
 		
 		mChildren = new Array<Drawable>();	
+		
+		mMesh = new MeshMerger(true);
 	}
 	
 	public function add(d : Drawable) {
@@ -26,7 +28,9 @@ class Batch extends Drawable {
 	}
 	
 	override public function draw(projection:Matrix4, camera:Matrix4) {
+		
 		prepare();
+		
 		super.draw(projection, camera);
 	}
 	

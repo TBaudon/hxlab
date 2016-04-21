@@ -1,6 +1,7 @@
 package;
 
 import lime.app.Application;
+import lime.graphics.opengl.GLFramebuffer;
 import lime.graphics.Renderer;
 import lime.math.Matrix3;
 import lime.ui.Window;
@@ -18,11 +19,20 @@ class Main extends Application {
 	
 	var mProjectionMatrix : Matrix3;
 	var mCameraMatrix : Matrix3;
+	var mIdentity : Matrix3;
 	
 	var mGiraffes : Array<Giraffe>;
 	
 	var mMoy : Float = 0;
 	var mCount : UInt = 0;
+	var mFrameBuffer : GLFramebuffer;
+	var mRenderTexture: Texture;
+	var mRenderbuffer:lime.graphics.opengl.GLRenderbuffer;
+	
+	var mRenderPlane : Drawable;
+	var mNbObj : UInt = 5;
+	
+	var mResolution : Float = 1;
 	
 	public function new () {
 		super ();
@@ -34,10 +44,16 @@ class Main extends Application {
 		super.onWindowCreate(window);
 		
 		mProjectionMatrix = new Matrix3();
-		mProjectionMatrix.scale(1 / (window.width*0.5), -1 /( window.height*0.5));
+		
+		var scaleX = 1 / (window.width * 0.5);
+		var scaleY = -1 / (window.height * 0.5);
+		
+		mProjectionMatrix.scale(scaleX, scaleY);
 		mProjectionMatrix.translate(-1, 1);
 		
 		mCameraMatrix = new Matrix3();
+		
+		mIdentity = new Matrix3();
 		//mCameraMatrix.rotate(100);
 	}
 	
@@ -48,11 +64,54 @@ class Main extends Application {
 	
 	function init() {
 		mGiraffes = new Array<Giraffe>();
-		for (i in 0 ... 1000)
-			mGiraffes.push(new Giraffe(window.width, window.height));
+		/*for (i in 0 ... mNbObj)
+			mGiraffes.push(new Giraffe(window.width, window.height));*/
+			
+		var a = new Giraffe(0, 0);
+		a.x = 0;
+		a.y = 0;
+		mGiraffes.push(a);
+		
+		a = new Giraffe(0, 0);
+		a.x = 1920;
+		a.y = 0;
+		mGiraffes.push(a);
+		
+		a = new Giraffe(0, 0);
+		a.x = 1920;
+		a.y = 800;
+		mGiraffes.push(a);
+		
+		a = new Giraffe(0, 0);
+		a.x = 0;
+		a.y = 800;
+		mGiraffes.push(a);
 			
 		GL.enable(GL.BLEND);
 		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
+		
+		mFrameBuffer = GL.createFramebuffer();
+		GL.bindFramebuffer(GL.FRAMEBUFFER, mFrameBuffer);
+		var bufferWidht = Std.int(window.width * mResolution);
+		var bufferHeight = Std.int(window.height * mResolution);
+		
+		mRenderTexture = new Texture(bufferWidht,bufferHeight);
+		
+		mRenderbuffer = GL.createRenderbuffer();
+		GL.bindRenderbuffer(GL.RENDERBUFFER, mRenderbuffer);
+		GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, bufferWidht, bufferHeight);
+		
+		GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, mRenderTexture.getGlTexture(), 0);
+		GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, mRenderbuffer);
+		
+		GL.bindTexture(GL.TEXTURE_2D, null);
+		GL.bindRenderbuffer(GL.RENDERBUFFER, null);
+		GL.bindFramebuffer(GL.FRAMEBUFFER, null);
+		
+		var toTextureMat = Material.get("assets/materials/fbo.json");
+		toTextureMat.setTexture("uImage0", mRenderTexture);
+		
+		mRenderPlane = new Drawable(toTextureMat, Mesh.Plane2D(2, 2));
 		
 		mInited = true;
 		
@@ -72,9 +131,16 @@ class Main extends Application {
 			GL.clearColor(r, g, b, a);
 			GL.clear(GL.COLOR_BUFFER_BIT);
 			
+			GL.bindFramebuffer(GL.FRAMEBUFFER, mFrameBuffer);
+
+			GL.clear(GL.COLOR_BUFFER_BIT);
+			
 			for (giraffe in mGiraffes)
 				giraffe.draw(mProjectionMatrix, mCameraMatrix);
 			
+			GL.bindFramebuffer(GL.FRAMEBUFFER, null);
+			
+			mRenderPlane.draw(mIdentity, mIdentity);
 		}
 		
 		var time = System.getTimer();

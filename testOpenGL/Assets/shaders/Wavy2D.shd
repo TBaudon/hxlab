@@ -21,4 +21,4 @@ vertex
 
 fragment
 	void main(void)
-		gl_FragColor = texture2D (uImage0, vec2(vTexCoord.x + sin(vTexCoord.y * 30.0 + uTime * 10.0) * 0.03, vTexCoord.y))
+		gl_FragColor = texture2D (uImage0, vec2(vTexCoord.x + sin(vTexCoord.y * 20.0 + uTime * 10.0) * 0.03, vTexCoord.y + cos(vTexCoord.x * 20.0 + (uTime + 100.0) * 10.0) * 0.03))
