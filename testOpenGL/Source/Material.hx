@@ -1,7 +1,6 @@
 package;
 
 import haxe.Json;
-import js.html.Text;
 import lime.Assets;
 import lime.graphics.Image;
 import lime.graphics.opengl.GL;

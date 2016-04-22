@@ -18,16 +18,16 @@
   <classpaths>
     <class path="E:\Outils\Dev\Haxe\haxe\lib\lime\2,9,1" />
     <class path="Source" />
-    <class path="Export\html5\haxe" />
+    <class path="Export\windows\neko\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="lime=2.9.1&#xA;tools=2.9.1&#xA;no-compilation&#xA;lime-html5&#xA;html5&#xA;web&#xA;html5&#xA;html&#xA;display" />
+    <option directives="lime=2.9.1&#xA;tools=2.9.1&#xA;no-compilation&#xA;lime-native&#xA;windows&#xA;desktop&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="False" />
-    <option additional="" />
+    <option additional="#--macro keep(&quot;Main&quot;)" />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

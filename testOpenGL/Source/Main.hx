@@ -27,12 +27,12 @@ class Main extends Application {
 	
 	var mMoy : Float = 0;
 	var mCount : UInt = 0;
+	
 	var mFrameBuffer : GLFramebuffer;
 	var mRenderTexture : Texture;
-	var mRenderbuffer : GLRenderbuffer;
 	
 	var mRenderPlane : Drawable;
-	var mNbObj : UInt = 100;
+	var mNbObj : UInt = 50;
 	
 	var mResolution : Float = 0.25;
 	
@@ -43,12 +43,18 @@ class Main extends Application {
 	
 	var mRenderSpaceX : Float;
 	var mRenderSpaceY : Float;
+	var mToTextureMat : Material;
+	
+	var mPostEffects : Array<Material>;
 	
 	public function new () {
 		super ();
 		
 		mLastTime = 0;
+		
+		mPostEffects = new Array<Material>();
 	}
+	
 	
 	override public function onWindowCreate(window:Window):Void {
 		super.onWindowCreate(window);
@@ -94,25 +100,29 @@ class Main extends Application {
 		mRenderTexture = new Texture(mFboWidth, mFboHeight, GL.NEAREST);
 		mRenderTexture.use();
 		
-		mRenderbuffer = GL.createRenderbuffer();
-		GL.bindRenderbuffer(GL.RENDERBUFFER, mRenderbuffer);
-		GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, mFboWidth, mFboHeight);
-		
 		GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, mRenderTexture.getGlTexture(), 0);
-		GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, mRenderbuffer);
 		
 		GL.bindTexture(GL.TEXTURE_2D, null);
-		GL.bindRenderbuffer(GL.RENDERBUFFER, null);
 		GL.bindFramebuffer(GL.FRAMEBUFFER, null);
 		
-		var toTextureMat = Material.get("assets/materials/fbo.json");
-		toTextureMat.setTexture("uImage0", mRenderTexture);
+		mToTextureMat = Material.get("assets/materials/fbo.json");
+		mToTextureMat.setTexture("uImage0", mRenderTexture);
 		
-		mRenderPlane = new Drawable(toTextureMat, Mesh.Plane2D(2, 2));
+		mRenderPlane = new Drawable(mToTextureMat, Mesh.Plane2D(2, 2));
 		
 		mInited = true;
 		
 		mLastTime = System.getTimer();
+		
+		//addPostEffect(Material.get("assets/materials/postWavy.json"));
+	}
+	
+	public function addPostEffect(effect : Material) {
+		mPostEffects.push(effect);
+	}
+	
+	public function removePostEffect(effect : Material) {
+		mPostEffects.remove(effect);
 	}
 	
 	public override function render( renderer:Renderer ) : Void {
@@ -125,19 +135,30 @@ class Main extends Application {
 			var b = (config.windows[0].background & 0xFF) / 0xFF;
 			var a = ((config.windows[0].background >> 24) & 0xFF) / 0xFF;
 			
-			GL.clearColor(0.3, 0.3, 0.3, a);
+			GL.clearColor(r,g, b, a);
 			GL.clear(GL.COLOR_BUFFER_BIT);
 			
+			// Draw scene to framebuffer
 			GL.bindFramebuffer(GL.FRAMEBUFFER, mFrameBuffer);
 			
-			GL.clearColor(0,0,0,0.5);
+			GL.clearColor(0,0,0,0);
 			GL.clear(GL.COLOR_BUFFER_BIT);
 			
 			for (giraffe in mGiraffes)
 				giraffe.draw(mProjectionMatrix, mCameraMatrix);
-			
 			GL.bindFramebuffer(GL.FRAMEBUFFER, null);
 			
+			//Apply post effects
+			for (effect in mPostEffects) {
+				effect.setTexture("uImage0", mRenderTexture);
+				mRenderPlane.material = effect;
+				mRenderPlane.draw(mIdentity, mIdentity);
+			}
+			
+			// render result
+			mRenderPlane.material = mToTextureMat;
+			mToTextureMat.setTexture("uImage0", mRenderTexture);
+				
 			mRenderPlane.draw(mIdentity, mIdentity);
 		}
 		

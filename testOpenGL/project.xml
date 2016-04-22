@@ -4,7 +4,7 @@
 	<meta title="TestOpenGL" package="com.sample.testopengl" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="TestOpenGL" />
 	
-	<window background="#990000" fps="60" hardware="true" allow-shaders="true" require-shaders="true" depth-buffer="true" stencil-buffer="true"/>
+	<window background="#3366cc" fps="60" hardware="true" allow-shaders="true" require-shaders="true" depth-buffer="true" stencil-buffer="true"/>
 	
 	<source path="Source" />
 	
