@@ -1,6 +1,6 @@
 {
 	
-	"shader" : "assets/shaders/2DSprite.shd",
+	"shader" : "assets/shaders/Wavy2D.shd",
 	
 	"params" : [
 	

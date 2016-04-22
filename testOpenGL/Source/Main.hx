@@ -2,8 +2,10 @@ package;
 
 import lime.app.Application;
 import lime.graphics.opengl.GLFramebuffer;
+import lime.graphics.opengl.GLRenderbuffer;
 import lime.graphics.Renderer;
 import lime.math.Matrix3;
+import lime.math.Vector2;
 import lime.ui.Window;
 
 import lime.graphics.opengl.GL;
@@ -26,13 +28,21 @@ class Main extends Application {
 	var mMoy : Float = 0;
 	var mCount : UInt = 0;
 	var mFrameBuffer : GLFramebuffer;
-	var mRenderTexture: Texture;
-	var mRenderbuffer:lime.graphics.opengl.GLRenderbuffer;
+	var mRenderTexture : Texture;
+	var mRenderbuffer : GLRenderbuffer;
 	
 	var mRenderPlane : Drawable;
-	var mNbObj : UInt = 5;
+	var mNbObj : UInt = 100;
 	
-	var mResolution : Float = 1;
+	var mResolution : Float = 0.25;
+	
+	var mBottom : UInt;
+	
+	var mFboWidth : Int;
+	var mFboHeight : Int;
+	
+	var mRenderSpaceX : Float;
+	var mRenderSpaceY : Float;
 	
 	public function new () {
 		super ();
@@ -45,16 +55,23 @@ class Main extends Application {
 		
 		mProjectionMatrix = new Matrix3();
 		
-		var scaleX = 1 / (window.width * 0.5);
-		var scaleY = -1 / (window.height * 0.5);
+		mBottom = window.height;
+		
+		mFboWidth = Std.int(window.width * mResolution);
+		mFboHeight = Std.int(window.height * mResolution);
+		
+		mRenderSpaceX = window.width;
+		mRenderSpaceY = window.height;
+		
+		var scaleX = 1 / (mRenderSpaceX / 2) * mResolution;
+		var scaleY = -1 / (mRenderSpaceY / 2) * mResolution;
 		
 		mProjectionMatrix.scale(scaleX, scaleY);
-		mProjectionMatrix.translate(-1, 1);
+		mProjectionMatrix.translate(-(1 - mResolution) -1 * mResolution, -(1 -mResolution) + 1 * mResolution);
 		
 		mCameraMatrix = new Matrix3();
 		
 		mIdentity = new Matrix3();
-		//mCameraMatrix.rotate(100);
 	}
 	
 	override public function onPreloadComplete():Void {
@@ -64,42 +81,22 @@ class Main extends Application {
 	
 	function init() {
 		mGiraffes = new Array<Giraffe>();
-		/*for (i in 0 ... mNbObj)
-			mGiraffes.push(new Giraffe(window.width, window.height));*/
-			
-		var a = new Giraffe(0, 0);
-		a.x = 0;
-		a.y = 0;
-		mGiraffes.push(a);
-		
-		a = new Giraffe(0, 0);
-		a.x = 1920;
-		a.y = 0;
-		mGiraffes.push(a);
-		
-		a = new Giraffe(0, 0);
-		a.x = 1920;
-		a.y = 800;
-		mGiraffes.push(a);
-		
-		a = new Giraffe(0, 0);
-		a.x = 0;
-		a.y = 800;
-		mGiraffes.push(a);
+		for (i in 0 ... mNbObj)
+			mGiraffes.push(new Giraffe(window.width, window.height));
 			
 		GL.enable(GL.BLEND);
 		GL.blendFunc(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA);
 		
 		mFrameBuffer = GL.createFramebuffer();
 		GL.bindFramebuffer(GL.FRAMEBUFFER, mFrameBuffer);
-		var bufferWidht = Std.int(window.width * mResolution);
-		var bufferHeight = Std.int(window.height * mResolution);
 		
-		mRenderTexture = new Texture(bufferWidht,bufferHeight);
+		var bufferHeight = Std.int(mFboHeight);
+		mRenderTexture = new Texture(mFboWidth, mFboHeight, GL.NEAREST);
+		mRenderTexture.use();
 		
 		mRenderbuffer = GL.createRenderbuffer();
 		GL.bindRenderbuffer(GL.RENDERBUFFER, mRenderbuffer);
-		GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, bufferWidht, bufferHeight);
+		GL.renderbufferStorage(GL.RENDERBUFFER, GL.DEPTH_COMPONENT16, mFboWidth, mFboHeight);
 		
 		GL.framebufferTexture2D(GL.FRAMEBUFFER, GL.COLOR_ATTACHMENT0, GL.TEXTURE_2D, mRenderTexture.getGlTexture(), 0);
 		GL.framebufferRenderbuffer(GL.FRAMEBUFFER, GL.DEPTH_ATTACHMENT, GL.RENDERBUFFER, mRenderbuffer);
@@ -128,11 +125,12 @@ class Main extends Application {
 			var b = (config.windows[0].background & 0xFF) / 0xFF;
 			var a = ((config.windows[0].background >> 24) & 0xFF) / 0xFF;
 			
-			GL.clearColor(r, g, b, a);
+			GL.clearColor(0.3, 0.3, 0.3, a);
 			GL.clear(GL.COLOR_BUFFER_BIT);
 			
 			GL.bindFramebuffer(GL.FRAMEBUFFER, mFrameBuffer);
-
+			
+			GL.clearColor(0,0,0,0.5);
 			GL.clear(GL.COLOR_BUFFER_BIT);
 			
 			for (giraffe in mGiraffes)

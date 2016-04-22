@@ -20,7 +20,7 @@ class Giraffe extends Drawable {
 		
 		mRotatinSpeed = Math.random() * 30 - 15;
 		
-		mesh = Mesh.Plane2D(250, 250);
+		mesh = Mesh.Plane2D(100, 100);
 	}
 	
 	override public function draw(projection:Matrix3, camera:Matrix3) {

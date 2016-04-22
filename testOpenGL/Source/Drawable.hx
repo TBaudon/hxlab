@@ -3,6 +3,7 @@ import lime.graphics.opengl.GL;
 import lime.graphics.opengl.GLBuffer;
 import lime.math.Matrix3;
 import lime.math.Matrix4;
+import lime.math.Vector2;
 import lime.math.Vector4;
 import lime.utils.Float32Array;
 import lime.utils.UInt16Array;
@@ -17,9 +18,13 @@ class Drawable {
 	public var material : Material;
 	
 	@:isVar public var rotation(default, set) : Float = 0.0;
+	
 	@:isVar public var x(default, set) : Float = 0.0;
 	@:isVar public var y(default, set) : Float = 0.0;
 	@:isVar public var z(default, set) : Float = 0.0;
+	
+	@:isVar public var scaleX(default, set) : Float = 1.0;
+	@:isVar public var scaleY(default, set) : Float = 1.0;
 	
 	var mMesh : Mesh;
 	
@@ -58,6 +63,7 @@ class Drawable {
 		if(mNeedMatrixCompute){
 			mTransform.identity();
 			
+			mTransform.scale(scaleX, scaleY);
 			mTransform.rotate(rotation / 360 * Math.PI);
 			mTransform.translate(x, y);
 			
@@ -114,6 +120,18 @@ class Drawable {
 		z = value;
 		mNeedMatrixCompute = true;
 		return z;
+	}
+	
+	public function set_scaleX(value : Float) : Float {
+		scaleX = value;
+		mNeedMatrixCompute = true;
+		return scaleX;
+	}
+	
+	public function set_scaleY(value : Float) : Float {
+		scaleX = value;
+		mNeedMatrixCompute = true;
+		return scaleY;
 	}
 	
 	function convertMatrix3ToArray32(matrix : Matrix3) : Float32Array {
